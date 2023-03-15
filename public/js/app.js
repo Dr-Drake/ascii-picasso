@@ -40,62 +40,28 @@ fileInput.addEventListener('change', (event) => {
         reader.readAsDataURL(file);
         button.removeAttribute('disabled');
     }
-    
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('POST', '/upload');
-    
-    // // Set up progress event listener
-    // xhr.upload.addEventListener('progress', (event) => {
-    //   const percentComplete = Math.round((event.loaded / event.total) * 100);
-    //   progressBar.value = percentComplete;
-    // });
-    
-    // // Set up load event listener
-    // xhr.onload = () => {
-    //   if (xhr.status === 200) {
-    //     // Update progress bar to 100%
-    //     progressBar.value = 100;
-        
-    //     // Display image preview
-    //     const response = JSON.parse(xhr.responseText);
-    //     imagePreview.src = response.imageUrl;
-    //   }
-    // };
-    
-    // Send file as base64-encoded data
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //   const base64Data = reader.result.split(',')[1];
-    //   xhr.setRequestHeader('Content-Type', 'application/json');
-    //   xhr.send(JSON.stringify({ imageData: base64Data }));
-    // };
 });
 
 /**
  * Click event listener for button
+ * Note: We aren't using progress bar at this moment
  */
 button.addEventListener('click', () => {
     // Show the progress modal
     // progressModal.style.display = 'block';
+
+    /** Set progress bar, button spinner, and disable button */
     progressBar.style.width = `${0}%`;
     spinner.classList.remove('d-none');
     button.setAttribute('disabled', '');
 
+    /** Send POST request */
     const form = new FormData();
     console.log(selectedFile);
     form.append('file', selectedFile);
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/drawAscii');
-
-    // const reader = new FileReader();
-    // reader.readAsDataURL(selectedFile);
-    // reader.onload = () => {
-    //     const base64Data = reader.result //split(',')[1];
-    //     xhr.setRequestHeader('Content-Type', 'application/json');
-    //     xhr.send(JSON.stringify({ base64Image: base64Data }));
-    // };
     xhr.send(form);
 
     
@@ -121,6 +87,8 @@ button.addEventListener('click', () => {
         if (xhr.status === 200) {
             // Update progress bar to 100%
             // progressBar.value = 100;
+
+            /** Stop loading spinner, disable button, and set progress bar to 100 */
             spinner.classList.add('d-none');
             progressBar.style.width = `${100}%`;
             progressBar.setAttribute('aria-valuenow', 100);
@@ -129,15 +97,11 @@ button.addEventListener('click', () => {
             const response = JSON.parse(xhr.responseText);
             pCanvas.innerText = response.asciiArt;
             // modalCloseBtn.click();
-            console.log("deoc");
             
             if (progressBar.style.width === '100%') {
                 modalCloseBtn.click();
-                console.log("deocuu");
             }
         }
-
-        modalCloseBtn.click();
     };
     
 });

@@ -76,10 +76,7 @@ app.get('/', (req, res) => {
 // Handle image uploads
 app.post('/drawAscii', upload.single('file'), async (req, res) => {
 
-    // const { base64Image } = req.body;
-    // console.log(req.file);
-    // const base64Image = req.file?.buffer.toString();
-
+    // If no file, bad request
     if (!req.file) {
         res.status(400).json({
             message: "No file sent"
