@@ -5,7 +5,6 @@ import sys
 from PIL import Image
 import numpy as np
 from ascii_magic import from_image
-from ascii_magic import from_pillow_image
 
 # Get the filename of the input image from the command-line arguments
 if len(sys.argv) < 2:
